@@ -49,5 +49,5 @@ $ pytest tests --alluredir=allure_results
 
 > `$ pip install -r requirements.txt`
 
-з 
+
 

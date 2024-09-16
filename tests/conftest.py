@@ -1,6 +1,4 @@
-import requests
-import random
-import string
+
 import pytest
 import allure
 from constants import Constants
@@ -27,4 +25,3 @@ def new_user():
 
     # возвращаем список
     yield payload
-    #requests.delete(f"{Constants.DELETING_COURIER_URL}{login_pass[0]}")"""
