@@ -11,7 +11,7 @@ class TestLogin:
         response_1 = requests.post(Constants.REGISTRATION_USER_URL, json=new_user)
         accessToken_1 = list(response_1.json().values())[2]
         response_2 = requests.post(Constants.LOGIN_USER_URL, json=new_user)
-D        assert response_2.status_code == 200 and ("accessToken" in list(response_2.json()))
+        assert response_2.status_code == 200 and ("accessToken" in list(response_2.json()))
         requests.delete(Constants.DELETE_USER_URL, headers={'Authorization': accessToken_1})
 
 
