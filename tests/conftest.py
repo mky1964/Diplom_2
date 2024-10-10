@@ -1,7 +1,5 @@
 
 import pytest
-import allure
-from constants import Constants
 from faker import Faker
 
 

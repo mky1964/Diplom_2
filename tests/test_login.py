@@ -17,23 +17,24 @@ class TestLogin:
 
 
     @allure.title('Негативный  тест авторизация существующего пользователя')
-    @allure.description('Негативный тест. Логин с неверным логином и паролем.Получение в тело ответа. code == 401 и наличия в ответе "email or password are incorrect"' )
-    @pytest.mark.parametrize('test_number', [1, 2])
-    def test_existing_user_login_wrong_parms(self, new_user, test_number):
+    @allure.description('Негативный тест. Логин с неверным email. Получение в тело ответа. code == 401 и наличия в ответе "email or password are incorrect"' )
+    def test_existing_user_login_wrong_parms_email(self, new_user):
             response = requests.post(Constants.REGISTRATION_USER_URL, json=new_user)
-            #print(response.json())
             accessToken = list(response.json().values())[2]
             user = new_user
-            if test_number == 1:
-                new_user['email'] = 'hhhh@gmail.com'
-                response_1 = requests.post(Constants.LOGIN_USER_URL, json=user)
-                print(response_1.json())
-                assert (response_1.status_code == 401) and ("email or password are incorrect" in list(response_1.json().values()))
-                delete_1 = requests.delete(Constants.DELETE_USER_URL,  headers={'Authorization': accessToken} )
+            new_user['email'] = 'hhhh@gmail.com'
+            response_1 = requests.post(Constants.LOGIN_USER_URL, json=user)
+            assert (response_1.status_code == 401) and ("email or password are incorrect" in list(response_1.json().values()))
+            requests.delete(Constants.DELETE_USER_URL,  headers={'Authorization': accessToken} )
 
-            elif test_number ==2:
-                new_user['password'] = 'Hhhhhh'
-                response_2 = requests.post(Constants.LOGIN_USER_URL, json=user)
-                #print(response_2.json())
-                assert (response_2.status_code == 401) and ("email or password are incorrect" in list(response_2.json().values()))
-                delete_1 = requests.delete(Constants.DELETE_USER_URL, headers={'Authorization': accessToken})
+
+    @allure.title('Негативный  тест авторизация существующего пользователя')
+    @allure.description('Негативный тест. Логин с неверным  паролем.Получение в тело ответа. code == 401 и наличия в ответе "email or password are incorrect"' )
+    def test_existing_user_login_wrong_parms_password(self, new_user):
+            response = requests.post(Constants.REGISTRATION_USER_URL, json=new_user)
+            accessToken = list(response.json().values())[2]
+            user = new_user
+            new_user['password'] = 'Hhhhhh'
+            response_2 = requests.post(Constants.LOGIN_USER_URL, json=user)
+            assert (response_2.status_code == 401) and ("email or password are incorrect" in list(response_2.json().values()))
+            requests.delete(Constants.DELETE_USER_URL, headers={'Authorization': accessToken})
